@@ -1,5 +1,6 @@
 \#*
 /meta
+/init.el
 *.eld
 /elpa
 /network-security.data

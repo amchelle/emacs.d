@@ -2,7 +2,6 @@
 :PROPERTIES:
 :header-args: :comments link :tangle init.el
 :END:
-
 ** Introduction
 Nothing is ever officially underway until a legal disclaimer of some
 sort is produced
@@ -138,9 +137,11 @@ And the inverse, for those high-contrast days
 
 Startup-theme of the month
 #+BEGIN_SRC emacs-lisp
-(use-package nord-theme :ensure t
-  :config
-  (load-theme 'nord t))
+      (use-package nord-theme :ensure t
+        :config
+        (load-theme 'nord t)
+        (set-face-foreground 'font-lock-comment-face "#b3daff")
+        (set-face-foreground 'font-lock-doc-face "#B4C4C8"))
 #+END_SRC
 
 ** Macros
@@ -762,8 +763,10 @@ Mark scripts executable on save.
 #+END_SRC
 **** Magit config
    #+BEGIN_SRC emacs-lisp
-  (use-package magit :ensure t
-    :commands magit-status)
+     (use-package magit
+       :ensure t
+       :commands magit-status
+       :bind ("C-c s" . 'magit-status))
    #+END_SRC
    
 **** Git messenger config

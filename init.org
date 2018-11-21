@@ -39,7 +39,14 @@ sort is produced
   (setq user-full-name "Amchelle Clendenin"
         user-mail-address "amchelle@protonmail.com")
   #+END_SRC
-
+*** ratpoison
+#+BEGIN_SRC emacs-lisp
+  (when window-system
+    (mapc (lambda (mode) (when (fboundp mode) (funcall mode -1)))
+          '(menu-bar-mode
+            tool-bar-mode
+            scroll-bar-mode)))
+#+END_SRC
 ** Package management
 *** Archives
 Configure remote package archives
@@ -48,7 +55,6 @@ Configure remote package archives
   (setq package-enable-at-startup nil)
       (mapc (lambda (source) (add-to-list 'package-archives source) t)
             '(("gnu" . "http://elpa.gnu.org/packages/")
-              ("marmalade" . "http://marmalade-repo.org/packages/")
               ("melpa-stable" . "http://melpa-stable.milkbox.net/packages/")
               ("melpa" . "http://melpa.milkbox.net/packages/")
               ("org" . "http://orgmode.org/elpa/")))
@@ -473,6 +479,11 @@ location
   (mouse-avoidance-mode 'exile)
 #+END_SRC
 
+** Keybindings
+#+BEGIN_SRC emacs-lisp
+(bind-key "M-;" 'comment-or-uncomment-region)
+#+END_SRC
+
 ** Language configs
 *** Programming modes config
 #+BEGIN_SRC emacs-lisp
@@ -544,6 +555,12 @@ location
     (after 'evil-leader
       (evil-leader/set-key-for-mode 'c++-mode
         "rh" 'srefactor-refactor-at-point)))
+#+END_SRC
+
+*** Javascript config
+**** json-mode
+#+BEGIN_SRC emacs-lisp
+  (use-package json-mode :ensure t)
 #+END_SRC
 *** Company mode
 #+BEGIN_SRC emacs-lisp
@@ -707,6 +724,13 @@ Mark scripts executable on save.
 #+END_SRC
 
 ** Extra
+*** zygospore config
+#+BEGIN_SRC emacs-lisp
+  (use-package zygospore
+    :ensure t
+    :pin melpa-stable
+    :bind ("C-x 1" . zygospore-toggle-delete-other-windows))
+#+END_SRC
 *** Ivy
 #+BEGIN_SRC emacs-lisp
    (use-package ivy :ensure t
@@ -766,7 +790,7 @@ Mark scripts executable on save.
      (use-package magit
        :ensure t
        :commands magit-status
-       :bind ("C-c s" . 'magit-status))
+       :bind ("C-c C-s" . 'magit-status))
    #+END_SRC
    
 **** Git messenger config
@@ -939,7 +963,7 @@ More thanks to [[https://github.com/abo-abo][abo-abo]].
 [[http://spw.sdf.org/blog/tech/emacs/expandregionlines.html][Notes from the Library : /blog/tech/emacs/expandregionlines.html]]
 #+BEGIN_SRC emacs-lisp
   (use-package expand-region :ensure t
-    ;; :bind ("C-;" . er/expand-region)
+    :bind ("C-=" . er/expand-region)
     :config
     (defadvice er/expand-region (around fill-out-region activate)
       (if (or (not (region-active-p))

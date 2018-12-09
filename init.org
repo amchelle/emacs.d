@@ -737,6 +737,13 @@ Mark scripts executable on save.
 #+END_SRC
 
 ** Extra
+*** wakatime config
+#+BEGIN_SRC emacs-lisp
+  (use-package wakatime-mode
+    :ensure t
+    :config
+    (global-wakatime-mode t))
+#+END_SRC
 *** zygospore config
 #+BEGIN_SRC emacs-lisp
   (use-package zygospore

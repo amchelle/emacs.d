@@ -294,6 +294,7 @@ location
 #+BEGIN_SRC emacs-lisp
    (add-hook 'org-mode-hook 'org-indent-mode)
    (add-hook 'org-mode-hook 'auto-fill-mode)
+   (add-hook 'org-mode-hook 'flyspell-mode)
 #+END_SRC
 **** Org cliplink config
 #+BEGIN_SRC emacs-lisp

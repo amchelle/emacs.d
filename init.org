@@ -810,7 +810,7 @@ Mark scripts executable on save.
      (use-package magit
        :ensure t
        :commands magit-status
-       :bind ("C-c C-s" . 'magit-status))
+       :bind ("C-c g" . 'magit-status))
    #+END_SRC
    
 **** Git messenger config

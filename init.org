@@ -1100,7 +1100,7 @@ Keep a history of =M-x= across sessions.
     :diminish (undo-tree-mode . "")
     :config
     (setq undo-limit (* 1024 1024))
-    (undo-tree-mode 1)
+    (global-undo-tree-mode 1)
     ;; (setq undo-tree-auto-save-history nil)
     (defadvice undo-tree-make-history-save-file-name
         (after undo-tree activate)

@@ -71,6 +71,26 @@ First there was =use-package=
 (require 'use-package)
 #+END_SRC
 
+*** Quelpa
+#+BEGIN_SRC emacs-lisp
+  (use-package quelpa :ensure t)
+  (use-package quelpa-use-package
+    :ensure t
+    :after (quelpa))
+#+END_SRC
+
+*** exec-path-from-shell
+
+Which came first, the Emacs or the shell?
+
+#+BEGIN_SRC emacs-lisp
+  (use-package exec-path-from-shell
+    :ensure t
+    :pin melpa-stable
+    :config
+    (exec-path-from-shell-initialize))
+#+END_SRC
+
 ** Layout and load paths
   #+BEGIN_SRC emacs-lisp
   (defcustom esc-meta-directory "~/.emacs.d/meta/"
@@ -564,11 +584,11 @@ location
     (setq flycheck-check-syntax-automatically '(save mode-enabled))
     (company-mode-on)
     (eldoc-mode 1)
-    (tide-hl-identifier-node t)
+    (tide-hl-identifier-mode t)
     (company-mode 1)
     (setq company-backends '(company-tide company-yasnippet))
-    (bind-key "TAB" 'yas-expand yas-minor-mode-map))
-
+    ;;(bind-key "TAB" 'yas-expand yas-minor-mode-map)
+    )
   ;; aligns annotation to the right hand side
   ;; (setq company-tooltip-align-annotations t)
 
@@ -751,6 +771,18 @@ Mark scripts executable on save.
     :pin melpa-stable
     :bind ("C-x 1" . zygospore-toggle-delete-other-windows))
 #+END_SRC
+*** Counsel
+#+BEGIN_SRC emacs-lisp
+  (use-package counsel
+    :ensure t
+    :pin melpa-stable
+    :bind ("C-x C-f" . counsel-find-file)
+    :config
+    (setq counsel-find-file-ignore-regexp
+          (concat counsel-find-file-ignore-regexp
+                  "package-lock\\.json"
+                  )))
+#+END_SRC
 *** Ivy
 #+BEGIN_SRC emacs-lisp
    (use-package ivy :ensure t
@@ -861,8 +893,18 @@ Mark scripts executable on save.
 *** Projectile config
    #+BEGIN_SRC emacs-lisp
      (use-package counsel-projectile :ensure t
-       :config (counsel-projectile-mode)
-)
+       :pin melpa-stable
+       :after (counsel)
+       :bind (("C-c p f" . counsel-projectile-find-file)
+              ("C-c p d" . counsel-projectile-find-dir)
+              ("C-c p a" . counsel-projectile-ag)
+              ("C-c p b" . counsel-projectile-switch-to-buffer)
+              ("C-c p p" . counsel-projectile-switch-project)
+              ("C-c p k" . projectile-kill-buffers)
+              ("C-c p s" . projectile-save-project-buffers)
+              ("C-c p %" . projectile-replace-regexp))
+       :config (counsel-projectile-mode 1)
+       )
    #+END_SRC
 *** Flycheck config
 #+BEGIN_SRC emacs-lisp
@@ -899,6 +941,15 @@ Mark scripts executable on save.
      (add-hook 'org-shiftright-final-hook 'windmove-right)))
 #+END_SRC
 
+**** Split-and-move config
+#+BEGIN_SRC emacs-lisp
+  (use-package split-and-move
+    :quelpa (split-and-move
+             :fetcher github
+             :repo "EricCrosson/split-and-move")
+    :bind (("C-x 2" . split-and-move-below)
+           ("C-x 3" . split-and-move-right)))
+#+END_SRC
 *** Rainbow delimeters mode config
 #+BEGIN_SRC emacs-lisp
   (use-package rainbow-delimiters
@@ -950,15 +1001,14 @@ More thanks to [[https://github.com/abo-abo][abo-abo]].
   (use-package misc
     :commands zap-up-to-char
     :init ; seeing as I don't use these commands terribly often
-    (after 'esc-mode
-      (esc-key "M-z"     'zap-up-to-char) ; up-to, life saver
-      (esc-key "M-Z"     'zap-to-char)))
-
+    :bind (("M-z" . zap-up-to-char)  ; up-to, life saver
+           ("M-Z" . zap-to-char)))
   (use-package misc-cmds
+    :quelpa (misc-cmds
+             :fetcher github
+             :repo "EricCrosson/misc-cmds")
     :commands revert-buffer-no-confirm
-    :init ; takes a while to need the get-out-of-jail-free button
-    (after 'esc-mode
-      (esc-key "C-x M-r" 'revert-buffer-no-confirm)))
+    :bind ("C-x M-r" . revert-buffer-no-confirm))
 #+END_SRC
 *** Browse kill ring config
 #+BEGIN_SRC emacs-lisp

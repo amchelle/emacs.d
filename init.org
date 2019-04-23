@@ -109,6 +109,10 @@ We must always remember [[http://programmers.stackexchange.com/a/148678][our ori
       (add-hook 'prog-mode-hook 'fci-mode))
 #+END_SRC
 
+#+BEGIN_SRC emacs-lisp
+  (blink-cursor-mode 0)
+#+END_SRC
+
 *** Fonts
 #+BEGIN_SRC emacs-lisp
   (defun font-exists-p (font)
